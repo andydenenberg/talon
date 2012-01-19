@@ -6,7 +6,7 @@
 
 <h2>Monitored Sites</h2>
 
-<table>
+<table class="zebra-striped">
   <tr>
     <th>Url</th>
     <th>Interval</th>
@@ -28,7 +28,7 @@
     <td><%= site.url %></td>
     <td><%= site.interval %></td>
     <td><%= site.active %></td>
-    <td><%= site.status %></td>
+    <td><span class="label <%= server_state_color(site.status) %>"><%= site.status %></span></td>
     <td><%= number_with_precision(site.delay, :precision => 5 ) %></td>
     <td><%= site.content %></td>
     <td><%= site.watcher %></td>
