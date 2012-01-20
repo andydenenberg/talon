@@ -1,11 +1,12 @@
 class SitesController < ApplicationController
   # GET /sites
   # GET /sites.json
+  def main
+    @sites = Site.all
+  end
+  
   def index
     @sites = Site.all
-#    @sites.first.next_check = @sites.first.next_check.strftime("%Y/%M/%D %H:%M:%S")
-    puts 'jvljlfasdlfhsdjfhkjsdahfkjahsdkfhsk'
-    puts @sites.first.next_check
     
     respond_to do |format|
       format.html # index.html.erb

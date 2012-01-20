@@ -1,5 +1,13 @@
 Talon::Application.routes.draw do
-  resources :sites
+#  resources :sites
+  
+  #  resources :sites
+  resources :sites do
+    collection do
+      get 'main'
+    end
+  end
+  
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
