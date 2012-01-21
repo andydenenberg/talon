@@ -1,0 +1,81 @@
+<script type="text/javascript">
+
+
+	$(document).ready(function(){ 
+		var line = new Array() ;
+		line1=[
+		["<%= @tl[0][0] %>","<%= @tl[0][1] %>"],
+		["<%= @tl[1][0] %>","<%= @tl[1][1] %>"],
+		["<%= @tl[2][0] %>","<%= @tl[2][1] %>"],
+		["<%= @tl[3][0] %>","<%= @tl[3][1] %>"],
+		["<%= @tl[4][0] %>","<%= @tl[4][1] %>"],
+		["<%= @tl[5][0] %>","<%= @tl[5][1] %>"],
+		["<%= @tl[6][0] %>","<%= @tl[6][1] %>"],
+		["<%= @tl[7][0] %>","<%= @tl[7][1] %>"],
+		["<%= @tl[8][0] %>","<%= @tl[8][1] %>"],
+		["<%= @tl[9][0] %>","<%= @tl[9][1] %>"],
+];
+		var maxY = .01 ;
+		var startDate = "<%= @tl[0][0] %>"
+		
+		$('#test').text("<%= @tl[5][0] %>");
+		
+//displaymessage1(line1, .01, "2012-01-21 11:00" ) ;
+
+		$.jqplot('chartdiv',  [line1],
+		{ title:'Response Time',
+		  axes:{ yaxis: { min: 0, max: maxY },
+		 		 xaxis: { renderer:$.jqplot.DateAxisRenderer,
+//		         tickOptions:{formatString:'%m/%d/%y - %I:%M:%S'},
+		         tickOptions:{formatString:'%I:%M:%S'},
+		         min: startDate ,
+				 numberTicks: 10 ,
+//		         tickInterval:'2 hours'
+		           },
+			   },
+			grid: {
+	            drawBorder: true, 
+	            drawGridlines: true,
+	            background: '#ffffff',
+	            shadow:true
+	        },
+		  series:[{color:'#5FAB78'}]
+		}
+				).replot();
+
+
+	});
+
+	</script>
+	
+    <div class="container">
+
+      <div class="content">
+        <div class="page-header">
+          <h1>Talon <small>keeping an eye on critical information</small></h1>
+        </div>
+        <div class="row">
+          <div class="span10">
+            <h3>Sites under watch</h3>
+			
+			<div id="chartdiv" ></div>
+
+          </div>
+          <div class="span4">
+            <h3>Status</h3>
+			<div id="test" ></div>
+
+
+
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        <p>&copy; Company 2011</p>
+      </footer>
+
+    </div> <!-- /container -->
+
+  </body>
+</html>
