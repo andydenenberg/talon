@@ -1,7 +1,10 @@
 Talon::Application.routes.draw do
-#  resources :sites
-  
-  #  resources :sites
+  resources :time_logs do
+    collection do
+      get 'main'
+    end
+  end
+
   resources :sites do
     collection do
       get 'main'

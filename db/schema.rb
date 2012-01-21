@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120116173940) do
+ActiveRecord::Schema.define(:version => 20120121161226) do
 
   create_table "sites", :force => true do |t|
     t.string   "url"
@@ -26,5 +26,17 @@ ActiveRecord::Schema.define(:version => 20120116173940) do
     t.datetime "updated_at"
     t.datetime "next_check"
   end
+
+  create_table "time_logs", :force => true do |t|
+    t.integer  "site_id"
+    t.datetime "checked"
+    t.string   "status"
+    t.float    "delay"
+    t.string   "watcher"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "time_logs", ["site_id"], :name => "index_time_logs_on_site_id"
 
 end

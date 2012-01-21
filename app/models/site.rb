@@ -1,4 +1,5 @@
 class Site < ActiveRecord::Base
+  has_many :time_logs
   
   def ok
     ok = Site.where(:status => 'SERVER_OK').length

@@ -1,7 +1,7 @@
 <script type="text/javascript">
 
 	$(document).ready(function(){ 
-	    var s1 = [['OK', <%= @ok %>],['NO_CONNECT', <%= @unable %>], ['WARNING', <%= @warning %>]];
+	    var s1 = [['OK', <%= @ok %>],['WARNING', <%= @warning %>],['NO_CONNECT', <%= @unable %>]];
 
 	    var plot8 = $.jqplot('pie8', [s1], {
 //			title: { 

@@ -5,6 +5,7 @@ alert("Hello World!");
 
 function displaymessage1(line1,maxY,startDate)
 	{
+		$('#test').html(startDate);
 		$.jqplot('chartdiv',  [line1],
 		{ title:'Response Time',
 		  axes:{ yaxis: { min: 0, max: maxY },
@@ -16,6 +17,12 @@ function displaymessage1(line1,maxY,startDate)
 //		         tickInterval:'2 hours'
 		           },
 			   },
+			grid: {
+	            drawBorder: false, 
+	            drawGridlines: false,
+	            background: '#ffffff',
+	            shadow:false
+	        },
 		  series:[{color:'#5FAB78'}]
 		}
 				).replot();
