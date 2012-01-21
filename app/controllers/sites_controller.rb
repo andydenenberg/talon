@@ -2,6 +2,9 @@ class SitesController < ApplicationController
   # GET /sites
   # GET /sites.json
   def main
+    @ok = Site.new.ok
+    @unable = Site.new.unable
+    @warning = Site.new.warning
     @sites = Site.all
   end
   

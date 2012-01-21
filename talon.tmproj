@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>perl/talon.pl</string>
+	<string>config/routes.rb</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -18,7 +18,7 @@
 		</dict>
 	</array>
 	<key>fileHierarchyDrawerWidth</key>
-	<integer>157</integer>
+	<integer>209</integer>
 	<key>metaData</key>
 	<dict>
 		<key>README</key>
@@ -63,6 +63,20 @@
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
+		<key>app/views/layouts/application.html.erb</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>7</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>73</integer>
+		</dict>
 		<key>app/views/sites/index.html.erb</key>
 		<dict>
 			<key>caret</key>
@@ -82,14 +96,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>27</integer>
+				<integer>1</integer>
 				<key>line</key>
-				<integer>86</integer>
+				<integer>23</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>64</integer>
+			<integer>43</integer>
 		</dict>
 		<key>config/routes.rb</key>
 		<dict>
@@ -141,6 +155,7 @@
 		<string>README</string>
 		<string>app/views/sites/index.html.erb</string>
 		<string>app/views/sites/main.html.erb</string>
+		<string>app/views/layouts/application.html.erb</string>
 		<string>config/routes.rb</string>
 		<string>app/controllers/sites_controller.rb</string>
 		<string>app/helpers/sites_helper.rb</string>

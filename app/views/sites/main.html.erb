@@ -1,24 +1,44 @@
 <script type="text/javascript">
-	$(document).ready(function(){
-	  var data = [
-	    ['Heavy Industry', 12],['Retail', 9], ['Light Industry', 14], 
-	    ['Out of home', 16],['Commuting', 7], ['Orientation', 9]
-	  ];
-	  var plot1 = jQuery.jqplot ('chart1', [data], 
-	    { 
-	      seriesDefaults: {
-	        // Make this a pie chart.
-	        renderer: jQuery.jqplot.PieRenderer, 
-	        rendererOptions: {
-	          // Put data labels on the pie slices.
-	          // By default, labels show the percentage of the slice.
-	          showDataLabels: true
+
+	$(document).ready(function(){ 
+	    var s1 = [['OK', <%= @ok %>],['NO_CONNECT', <%= @unable %>], ['WARNING', <%= @warning %>]];
+
+	    var plot8 = $.jqplot('pie8', [s1], {
+//			title: { 
+//				text: 'System Status',
+//	            fontSize: '16pt'
+//	        },  
+	        grid: {
+	            drawBorder: false, 
+	            drawGridlines: false,
+	            background: '#ffffff',
+	            shadow:false
+	        },
+			gridPadding: {top:0, bottom:0, left:0, right:0},
+			seriesColors:['#46A546', '#F89406', '#C43C35'],
+	        axesDefaults: {
+
+	        },
+	        seriesDefaults:{
+	            renderer:$.jqplot.PieRenderer,
+	            rendererOptions: {
+	                showDataLabels: true,
+					padding: 10		            
+	            }
+	        },
+	        legend:{
+	            show:false, 
+				border: 'none',
+	            placement: 'outside', 
+	            rendererOptions: {
+	                numberRows: 3
+	            }, 
+	            location:'s',
+	            marginTop: '15px'
 	        }
-	      }, 
-	      legend: { show:false, location: 'e' }
-	    }
-	  );
+	    }); 
 	});
+
 
 	</script>
 	
@@ -51,15 +71,11 @@
 			  </tr>
 			<% end %>
 			</table>
-
-
-
-
           </div>
           <div class="span4">
-            <h3>System Status</h3>
+            <h3>Status</h3>
 
-			<div id="chart1" ></div>
+			<div id="pie8" ></div>
 
 
           </div>
