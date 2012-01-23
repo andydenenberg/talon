@@ -2,6 +2,7 @@ Talon::Application.routes.draw do
   resources :time_logs do
     collection do
       get 'main'
+      get 'data'
     end
   end
 

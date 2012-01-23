@@ -1,5 +1,17 @@
 class TimeLogsController < ApplicationController
 
+  def data
+#    tl_count = TimeLog.where("site_id = ?", params[:site_id]).count
+#    @series_data = TimeLog.where("site_id = ?", params[:site_id]).limit(10).offset(tl_count-10)
+    tl_count = TimeLog.where("site_id = ?", 1).count
+    @series_data = TimeLog.where("site_id = ?", 1).limit(10).offset(tl_count-10)
+    print "site ID = "
+    puts params[:site_id]
+
+    render json: @series_data
+    
+  end
+
   def main
       @sites = Site.all
       @tl = Array.new
@@ -9,7 +21,8 @@ class TimeLogsController < ApplicationController
       iter = TimeLog.where("site_id = ?", 1).limit(10).offset(tl_count-10)
 
     iter.each do | tl |
-      @t = [tl.checked.strftime("%I:%M:%S%p"),tl.delay]
+#      @t = [tl.checked.strftime("%I:%M:%S%p"),tl.delay]
+      @t = [tl.checked,tl.delay]
       @tl.push @t
     end
 #    @tl = [["2012-01-21 11:00",0.003], ["2012-01-21 12:00",0.006], ["2012-01-21 13:00",0.001],["2012-01-21 14:00",0.001], ["2012-01-21 15:00",0.001],["2012-01-21 16:00",0.001],["2012-01-21 17:00",0.001],["2012-01-21 18:00",0.001], ["2012-01-21 19:00",0.001], ["2012-01-21 20:00",0.001]]

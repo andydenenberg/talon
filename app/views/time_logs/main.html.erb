@@ -1,51 +1,67 @@
 <script type="text/javascript">
 
 
-	$(document).ready(function(){ 
-		var line = new Array() ;
-		line1=[
-		["<%= @tl[0][0] %>","<%= @tl[0][1] %>"],
-		["<%= @tl[1][0] %>","<%= @tl[1][1] %>"],
-		["<%= @tl[2][0] %>","<%= @tl[2][1] %>"],
-		["<%= @tl[3][0] %>","<%= @tl[3][1] %>"],
-		["<%= @tl[4][0] %>","<%= @tl[4][1] %>"],
-		["<%= @tl[5][0] %>","<%= @tl[5][1] %>"],
-		["<%= @tl[6][0] %>","<%= @tl[6][1] %>"],
-		["<%= @tl[7][0] %>","<%= @tl[7][1] %>"],
-		["<%= @tl[8][0] %>","<%= @tl[8][1] %>"],
-		["<%= @tl[9][0] %>","<%= @tl[9][1] %>"],
-];
-		var maxY = .01 ;
-		var startDate = "<%= @tl[0][0] %>"
-				
-//displaymessage1(line1, .01, "2012-01-21 11:00" ) ;
+var series = new Array() ;
+var maxY = 0 ;
+var startDate ;
+var SiteID = 9 ; // need to be initialized from database......
+var json_raw ;
+var str = "";
+var i = 0 ;
 
-		$.jqplot('chartdiv',  [line1],
-		{ title:'Response Time',
-		  axes:{ yaxis: { min: 0, max: maxY },
-		 		 xaxis: { renderer:$.jqplot.DateAxisRenderer,
-//		         tickOptions:{formatString:'%m/%d/%y - %I:%M:%S'},
-		         tickOptions:{formatString:'%I:%M:%S'},
-		         min: startDate ,
-				 numberTicks: 10 ,
-//		         tickInterval:'2 hours'
-		           },
-			   },
-			grid: {
-	            drawBorder: true, 
-	            drawGridlines: true,
-	            background: '#ffffff',
-	            shadow:true
-	        },
-		  series:[{color:'#5FAB78'}]
-		}
-				).replot();
+
+	$(document).ready(function(){ 
+
+		json_get() ;
+
 	});
 
 	function select_series(site_id) {
-		$('#test').html('Selected Series:' + site_id) ;	
+		$('#test').html('Selected Series:' + site_id)
+		SiteID = site_id ;
+		json_get() ;	
 	}
 
+
+
+	function json_get() {
+		$.getJSON("/time_logs/data.json",
+		{ site_id:SiteID },
+		function(json_raw){
+			series = [[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]] ;
+			for (i=0;i<=9;i++)
+				{
+					series[i][0] = new Date (json_raw[i].checked ) ;
+					series[i][1] = json_raw[i].delay ;
+				}
+			show_get(series);
+		});
+	}
+
+	function show_get(series) {
+				
+				maxY = 0.01 ;
+				$.jqplot('chartdiv',  [series],
+				{ title:'Response Time for Site# ' + SiteID,
+				  axes:{ yaxis: { min: 0, max: maxY },
+				 		 xaxis: { renderer:$.jqplot.DateAxisRenderer,
+		//		         tickOptions:{formatString:'%m/%d/%y - %I:%M:%S'},
+				         tickOptions:{formatString:'%H:%M:%S'},
+		//		         min: startDate ,
+						 numberTicks: 10 ,
+		//		         tickInterval:'2 hours'
+				           },
+					   },
+					grid: {
+			            drawBorder: true, 
+			            drawGridlines: true,
+			            background: '#ffffff',
+			            shadow:true
+			        },
+				  series:[{color:'#5FAB78'}]
+				}
+						).replot();							
+	}
 
 	</script>
 	
@@ -80,6 +96,9 @@
 			<% end %>
 			</table>
 
+
+			<br>
+			<a href="#" onclick="json_get()">Test Get</a>
 
           </div>
         </div>
