@@ -1,10 +1,10 @@
 class TimeLogsController < ApplicationController
 
   def data
-#    tl_count = TimeLog.where("site_id = ?", params[:site_id]).count
-#    @series_data = TimeLog.where("site_id = ?", params[:site_id]).limit(10).offset(tl_count-10)
-    tl_count = TimeLog.where("site_id = ?", 1).count
-    @series_data = TimeLog.where("site_id = ?", 1).limit(10).offset(tl_count-10)
+    tl_count = TimeLog.where("site_id = ?", params[:site_id]).count
+    @series_data = TimeLog.where("site_id = ?", params[:site_id]).limit(10).offset(tl_count-10)
+#    tl_count = TimeLog.where("site_id = ?", 1).count
+#    @series_data = TimeLog.where("site_id = ?", 1).limit(10).offset(tl_count-10)
     print "site ID = "
     puts params[:site_id]
 
