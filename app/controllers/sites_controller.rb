@@ -1,6 +1,20 @@
 class SitesController < ApplicationController
   # GET /sites
   # GET /sites.json
+
+  def data
+    
+  end
+
+  def test
+    site = 1
+    @number_records = TimeLog.where( :site_id => site ).count
+    @sites = Site.all
+    @point_range = Site.new.log_stats
+    puts @tk
+  end
+
+
   def main
     @ok = Site.new.ok
     @unable = Site.new.unable

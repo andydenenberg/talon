@@ -4,34 +4,33 @@ class TimeLogsController < ApplicationController
     tl_count = TimeLog.where("site_id = ?", params[:site_id]).count
     num_points = params[:num_points].to_i
     @series_data = TimeLog.where("site_id = ?", params[:site_id]).limit(num_points).offset(tl_count-num_points)
-    print "number of data points = "
-    puts num_points
 
     render json: @series_data
+    
+  end
+  
+  def control    
+    site = params[:site_id]
+    puts site
+    @number_records = TimeLog.where( :site_id => site ).count
+    puts @number_records
+
+    render json: @number_records
     
   end
 
   def main
       @sites = Site.all
-      @tl = Array.new
-      @t = Array.new
+      @point_range = Site.new.log_stats
       
-      tl_count = TimeLog.where("site_id = ?", 1).count
-      iter = TimeLog.where("site_id = ?", 1).limit(10).offset(tl_count-10)
-
-    iter.each do | tl |
-#      @t = [tl.checked.strftime("%I:%M:%S%p"),tl.delay]
-      @t = [tl.checked,tl.delay]
-      @tl.push @t
-    end
-#    @tl = [["2012-01-21 11:00",0.003], ["2012-01-21 12:00",0.006], ["2012-01-21 13:00",0.001],["2012-01-21 14:00",0.001], ["2012-01-21 15:00",0.001],["2012-01-21 16:00",0.001],["2012-01-21 17:00",0.001],["2012-01-21 18:00",0.001], ["2012-01-21 19:00",0.001], ["2012-01-21 20:00",0.001]]
-  puts @tl
   end
   
   # GET /time_logs
   # GET /time_logs.json
   def index
-    @time_logs = TimeLog.all
+#    @time_logs = TimeLog.all
+    @time_logs = TimeLog.paginate :page => params[:page], :per_page => 10, :order => 'site_id'
+    
 
     respond_to do |format|
       format.html # index.html.erb

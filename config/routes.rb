@@ -3,12 +3,15 @@ Talon::Application.routes.draw do
     collection do
       get 'main'
       get 'data'
+      get 'control'
     end
   end
 
   resources :sites do
     collection do
       get 'main'
+      get 'test'
+      get 'data'
     end
   end
   

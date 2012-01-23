@@ -3,20 +3,20 @@
 	<meta http-equiv="refresh" content="5">
   <title>Demo</title>
 </head>
+<div class="container">
 
-<h2>Monitored Sites</h2>
+  <div class="content">
+    <div class="page-header">
+		<h2>Monitored Sites</h2>
+    </div>
 
 <table class="zebra-striped">
   <tr>
     <th>Url</th>
     <th>Interval</th>
     <th>Active</th>
-    <th>Status</th>
-    <th>Delay</th>
     <th>Content</th>
     <th>Watcher</th>
-	<th>Last Checked</th>
-	<th>Next Check</th>
 	<th>ID:</th>
     <th></th>
     <th></th>
@@ -28,12 +28,8 @@
     <td><%= site.url %></td>
     <td><%= site.interval %></td>
     <td><%= site.active %></td>
-    <td><span class="label <%= server_state_color(site.status) %>"><%= site.status %></span></td>
-    <td><%= number_with_precision(site.delay, :precision => 5 ) %></td>
     <td><%= site.content %></td>
     <td><%= site.watcher %></td>
-	<td><%= site.last_checked.strftime("%H:%M %p") %></td>
-	<td><%= site.next_check.strftime("%H:%M %p") %></td>
 	<td><%= site.id %></td>
     <td><%= link_to 'Show', site %></td>
     <td><%= link_to 'Edit', edit_site_path(site) %></td>

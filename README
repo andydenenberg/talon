@@ -23,3 +23,7 @@ end
 
 Send email of system status
 provide login and security
+
+Add a time_log enable flag and frequency of recording to site config data
+
+Add config data for each watcher that checks in and determines frequency of check and whether its active

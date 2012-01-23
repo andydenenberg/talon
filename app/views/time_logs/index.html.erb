@@ -1,6 +1,11 @@
-<h1>Listing time_logs</h1>
+<div class="container">
 
-<table>
+  <div class="content">
+    <div class="page-header">
+		<h3>Listing time_logs</h3>
+    </div>
+
+<table class="zebra-striped">
   <tr>
     <th>Site</th>
     <th>Checked</th>
@@ -27,5 +32,7 @@
 </table>
 
 <br />
+
+<%= page_navigation_links @time_logs %>
 
 <%= link_to 'New Time log', new_time_log_path %>
