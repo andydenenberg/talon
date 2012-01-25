@@ -12,6 +12,7 @@ Talon::Application.routes.draw do
       get 'main'
       get 'test'
       get 'data'
+      get 'site_ids'
     end
   end
   

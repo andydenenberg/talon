@@ -4,10 +4,18 @@
 var series = new Array() ;
 var maxY = 0.05 ;
 var startDate ;
-var SiteID = 9 ; // need to be initialized from database......
-var NumPoints = 10 ;
-var Number_of_ticks = 10 ;
-var Tick_interval = '12 hours' ;
+var SiteID = 1 ; // need to be initialized from database......
+var SiteUrl = "www.denenberg.net" ;
+var RangeOfData ;
+var Records = 0;
+var First ;
+var Last ;
+var SpanOfTime ;
+var NumPoints = 100 ;
+var Number_of_ticks = 5 ; // should not change much, number of tick across the x-axis 
+var Tick_interval = '6 hr' ;  // Tick_interval = span / Number_ticks
+var PlotStartDate = new Date (2012, 1-1, 24) // '2012/01/24 00:00' ;
+var PlotStopDate = new Date (2012, 1-1, 31) //'2012/01/25 00:00' ;
 var json_raw ;
 var str = "";
 var i = 0 ;
@@ -17,15 +25,54 @@ var i = 0 ;
 		$('#max_y').val(maxY);
 		$('#tick_interval').val(Tick_interval);
 		$('#number_of_ticks').val(Number_of_ticks);
+		$('#pointstoplot').val(NumPoints);
+		$('#plotstartdate').val(PlotStartDate);
+		$('#plotstopdate').val(PlotStopDate);
+		
+//		$("#plotstartdate").datepicker( { dateFormat: 'yy/mm/dd' }); //, defaultDate: PlotStartDate });
+//		$("#plotstopdate").datepicker( { dateFormat: 'yy/mm/dd' }); //, defaultDate: PlotStopDate });
+	  
 		json_get() ;
-
 	});
 
-	function select_series(site_id, number_points) {
-		NumPoints = number_points ;	    
+	function select_series(site_id, site_url) {
 		SiteID = site_id ;
-		json_get() ;	
+		SiteUrl = site_url ;
+		json_get_range() ;				
 	}
+
+	function json_get_range() {
+			$.getJSON("/sites/data.json",
+			null,
+			function(RangeOfData){
+				  
+				Records = RangeOfData[SiteID][1] ;
+				First = fix_time(RangeOfData[SiteID][2]) ;
+				Last = fix_time(RangeOfData[SiteID][3]) ;
+				SpanOfTime = RangeOfData[SiteID][4] ;
+				$('#records').html(Records);
+				$('#first').html(First);
+				$('#last').html(Last);	
+				$('#spanoftime').html(SpanOfTime);
+				NumPoints = Records ;
+				$('#pointstoplot').val(NumPoints);
+
+				$('#plotstartdate').val(First);
+				$('#plotstopdate').val(Last);
+
+
+
+				
+				json_get() ;						
+			});
+		}
+
+	function fix_time(rails_time) {
+		var date = rails_time.split("T")[0] ;
+			var time = rails_time.split("T")[1].split("Z")[0] ;			 
+			return date + " " + time ;
+	}		
+
 
 	function json_get() {
 		$.getJSON("/time_logs/data.json",
@@ -34,12 +81,9 @@ var i = 0 ;
 			series = [] ;
 			for (i=0;i<=NumPoints-1;i++)
 			{ series.push ([0,0]) ; }
-
-			$('#test').html(series.length)
-
 			for (i=0;i<=NumPoints-1;i++)
 				{
-					series[i][0] = new Date (json_raw[i].checked ) ;
+					series[i][0] = fix_time(json_raw[i].checked) ;
 					series[i][1] = json_raw[i].delay ;
 				}
 			show_get(series);
@@ -47,18 +91,23 @@ var i = 0 ;
 	}
 
 	function show_get(series) {
+				Points = $('#pointstoplot').val() ;
+				series.length = Points	;    
 				maxY = $('#max_y').val() ;	    
 				Number_of_ticks = $('#number_of_ticks').val() ;	    
 				Tick_interval = $('#tick_interval').val() ;	    				
+				PlotStartDate = $('#plotstartdate').val() ;	    
+				PlotStopDate = $('#plotstopdate').val() ;	    
 				$.jqplot('chartdiv',  [series],
-				{ title:'Response Time for Site# ' + SiteID,
+				{ title: SiteUrl + ' (Response Time)',
 				  axes:{ yaxis: { min: 0, max: maxY },
 				 		 xaxis: { renderer:$.jqplot.DateAxisRenderer,
-				         tickOptions:{formatString:'%m/%d/%y - %I:%M:%S'},
-		//		         tickOptions:{formatString:'%H:%M:%S'},
-		//		         min: startDate ,
+					         tickOptions:{formatString:'%m/%d %H:%M'},
+		//		         tickOptions:{formatString:'%m/%d/%y - %I:%M:%S'},
+				         min: PlotStartDate ,
+						 max: PlotStopDate ,
 						 numberTicks: Number_of_ticks ,
-				         tickInterval: Tick_interval 
+//				         tickInterval: Tick_interval 
 				           },
 					   },
 					grid: {
@@ -69,49 +118,120 @@ var i = 0 ;
 			        },
 				  series:[{color:'#5FAB78'}]
 				}
-						).replot();							
+						).replot();													
 	}
+	
+	$(function() {				
+	  $("#site_select").change(function() {
+		 var id = document.getElementById('site_select').value ;
+			$.getJSON("/sites/site_ids.json",
+			null,
+			function(sites_ids){
+			var url = sites_ids[id] ;
+			select_series(id,url) ;	  						
+			});
+		
+	  });
+	});
+		
+
+//	var firstDate = new Date(2010, 8-1, 1);
+//	var endDate = new Date(2010, 8-1, 31);
+//	$('#plotstartdate').val(firstDate);
+//	$('#plotstopdate').val(endDate);
+
+	$(function() {
+	    var minDate = PlotStartDate;
+	    var maxDate = PlotStopDate;
+		var test = Math.floor((maxDate.getTime() - minDate.getTime()) / 86400000) ;		
+			$( "#slider" ).slider({
+				range: true,
+				min: 0,
+				max: Math.floor((maxDate.getTime() - minDate.getTime()) / 86400000),
+				values: [ 0, 2 ],
+				slide: function( event, ui ) {
+//					$('#plotstartdate').val(ui.values[0]);
+					$('#plotstopdate').val(ui.values[1]);
+		            var date = new Date(minDate.getTime());
+		            date.setDate(date.getDate() + ui.values[0]);
+		            $('#plotstartdate').val($.datepicker.formatDate('mm/dd/yy', date));
+		            date = new Date(minDate.getTime());
+		            date.setDate(date.getDate() + ui.values[1]);
+		            $('#plotstopdate').val($.datepicker.formatDate('mm/dd/yy', date));
+				}
+			});
+		});
+	
+	
+	
 
 	</script>
 	
     <div class="container">
 
       <div class="content">
-        <div class="page-header">
-          <h1>Talon <small>keeping an eye on critical information</small></h1>
-        </div>
         <div class="row">
-          <div class="span10">
+          <div class="span14">
+			
+			<table class="zebra-striped">
+			  <tr>
+				<th>Site</th>
+			    <th>Records</th>
+			    <th>First</th>
+			    <th>Last</th>
+				<th>Span Hrs</th>
+			  </tr>
+			  <tr>
+				<td><%= select_tag "site_select", options_for_select(sites_for_select) %></td>
+			    <td><div id="records"></div></td>
+			    <td><div id="first"></div></td>
+			    <td><div id="last"></div></td>
+				<td><div id="spanoftime"></div></td>
+			  </tr>
+			</table>
 			
 			<div id="chartdiv" ></div>
 			
-			<%= link_to "Test", test_sites_path %><br><br>
-			Max Y: <input type="text" id="max_y"><br />
-			Tick Interval: <input type="text" id="tick_interval"><br />
-			Number of Ticks: <input type="text" id="number_of_ticks"><br />
-			<a href="#"onclick="show_get(series)">Redraw Graph</a>			
-
-          </div>
-
-
-          <div class="span4">			
 			<table class="zebra-striped">
 			  <tr>
-			    <th>Url</th>
-			    <th>Data Points</th>
+				<th>Start Date</th>
+			    <th>Start Time</th>
+			    <th>End Date</th>
+			    <th>End Time</th>
+				<th>Span Hrs</th>
 			  </tr>
-			
-			<% i = 0 %>
-			<% @sites.each do |site| %>
 			  <tr>
-			    <td><a href="#"onclick="select_series(<%= site.id %>,<%= @point_range[i][1] %>)"><%= truncate(site.url, :length => 10) %></a></td>
-			    <td><%= @point_range[i][1] %></td>
+				<td><input type="text" id="plotstartdate"></td>
+			    <td><input type="text" id="plotstopdate"></td>
+			    <td>10 oclock</td>
+			    <td>midnight</td>
+				<td>16</td>
 			  </tr>
-			<% i = i + 1 %>
-			<% end %>
+			  <tr>
+				<td><div id="slider"></div></td>
+			  </tr>
 			</table>
 
+			
+			
+			<table class="zebra-striped">
+			  <tr>
+				<th>Maximum Y</th>
+			    <th># Points(most recent)</th>
+			    <th>Tick Interval</th>
+			  </tr>
+			  <tr>
+				<td><input type="text" id="max_y"></td>
+			    <td><input type="text" id="pointstoplot"></td>
+			    <td><input type="text" id="tick_interval"></td>
+			  </tr>
+			</table>
+
+			<a href="#"onclick="show_get(series)" class="btn info">Redraw Graph</a>	<br>
+
           </div>
+
+
         </div>
       </div>
 

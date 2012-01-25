@@ -2,8 +2,14 @@ class SitesController < ApplicationController
   # GET /sites
   # GET /sites.json
 
+  def site_ids
+    @site_ids = Site.new.site_ids
+    render json: @site_ids
+  end
+
   def data
-    
+    @range = Site.new.range_of_data
+    render json: @range
   end
 
   def test
@@ -20,6 +26,7 @@ class SitesController < ApplicationController
     @unable = Site.new.unable
     @warning = Site.new.warning
     @sites = Site.all
+    @point_range = Site.new.log_stats
   end
   
   def index

@@ -4,7 +4,6 @@ class TimeLogsController < ApplicationController
     tl_count = TimeLog.where("site_id = ?", params[:site_id]).count
     num_points = params[:num_points].to_i
     @series_data = TimeLog.where("site_id = ?", params[:site_id]).limit(num_points).offset(tl_count-num_points)
-
     render json: @series_data
     
   end
