@@ -21,7 +21,7 @@ class TimeLogsController < ApplicationController
   def main
       @sites = Site.all
       @point_range = Site.new.log_stats
-      
+      @sites_for_select = Site.new.sites_for_select      
   end
   
   # GET /time_logs

@@ -1,6 +1,12 @@
 class Site < ActiveRecord::Base
   has_many :time_logs
 
+  def sites_for_select
+    site = Array.new
+    site += Site.all.collect { |u| [u.url, u.id] }
+    return site
+  end
+
   def site_ids
     si = Hash.new
     sites = Site.all

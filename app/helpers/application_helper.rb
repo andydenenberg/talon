@@ -27,11 +27,11 @@ module ApplicationHelper
      will_paginate(pages, :class => 'pagination', :inner_window => 2, :outer_window => 0, :renderer => BootstrapLinkRenderer, :previous_label => '&larr;'.html_safe, :next_label => '&rarr;'.html_safe)
    end
   
-   def sites_for_select
-     site = Array.new
-     site += Site.all.collect { |u| [u.url, u.id] }
-     return site
-   end
+#  def sites_for_select
+#    site = Array.new
+#    site += Site.all.collect { |u| [u.url, u.id] }
+#    return site
+#  end
    
   
   

@@ -3,8 +3,8 @@ class SitesController < ApplicationController
   # GET /sites.json
 
   def site_ids
-    @site_ids = Site.new.site_ids
-    render json: @site_ids
+    @site_ids = Site.new
+    render json: @site_ids.site_ids
   end
 
   def data
