@@ -17,7 +17,7 @@ class SitesController < ApplicationController
     @number_records = TimeLog.where( :site_id => site ).count
     @sites = Site.all
     @point_range = Site.new.log_stats
-    puts @tk
+    @sites_for_select = Site.new.sites_for_select
   end
 
 
