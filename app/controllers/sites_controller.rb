@@ -1,6 +1,6 @@
 class SitesController < ApplicationController
-  # GET /sites
-  # GET /sites.json
+
+  skip_before_filter :authenticate_user!, :only => [ :index, :update ]
 
   def site_ids
     @site_ids = Site.new

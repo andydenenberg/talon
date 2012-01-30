@@ -22,7 +22,14 @@ end
 
 
 Send email of system status
+
+
 provide login and security
+
+CSRF security happens, whatever the format of the request is.
+If you don't want it, you have to remove the call to protect_from_forgery in your ApplicationController.
+You can also remove it for one controller, or one action only.
+skip_before_filter :verify_authenticity_token, :only => [:index]
 
 Add a time_log enable flag and frequency of recording to site config data
 

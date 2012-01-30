@@ -87,17 +87,27 @@
 	      <div class="fill">
 	        <div class="container">
 	          <a class="brand" href="#">Osprey Point Partners</a>
+				<% if user_signed_in? %>
 	          <ul class="nav">
-	            <li class="active"><%= link_to "Main", main_sites_path %></li>
-	            <li><%= link_to "Index", sites_path %></li>
-	            <li><%= link_to "Series", time_logs_path %></li>
-	            <li><%= link_to "Graph", main_time_logs_path %></li>
-	          </ul>
-	          <form action="" class="pull-right">
-	            <input class="input-small" type="text" placeholder="Username">
-	            <input class="input-small" type="password" placeholder="Password">
-	            <button class="btn" type="submit">Sign in</button>
+		            <li class="active"><%= link_to "Main", main_sites_path %></li>
+		            <li><%= link_to "Index", sites_path %></li>
+		            <li><%= link_to "Series", time_logs_path %></li>
+		            <li><%= link_to "Graph", main_time_logs_path %></li>
+				  	<li><%= link_to('Logout', destroy_user_session_path, :method => :delete) %></li>
+	          </ul>				
+				<% else %>
+	          <form accept-charset="UTF-8" action="/users/sign_in" class="pull-right" id="user_new" method="post">
+	            <input class="input-small"  id="user_email" name="user[email]" size="30" type="email" placeholder="Email">
+	            <input class="input-small"  id="user_password" name="user[password]" size="30" type="password" placeholder="Password">
+				
+	            <button class="btn" name="commit" type="submit" value="Sign in">Sign in</button>
 	          </form>
+
+				<% end %>
+	
+
+	
+	
 	        </div>
 	      </div>
 	    </div>

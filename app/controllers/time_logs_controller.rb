@@ -1,5 +1,7 @@
 class TimeLogsController < ApplicationController
 
+  skip_before_filter :authenticate_user!, :only => [ :create ]
+
   def data
     tl_count = TimeLog.where("site_id = ?", params[:site_id]).count
     num_points = params[:num_points].to_i
