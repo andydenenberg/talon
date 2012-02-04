@@ -1,5 +1,9 @@
 Talon::Application.routes.draw do
-  devise_for :users
+#  devise_for :users
+
+devise_for :users do
+    root :to => "time_logs#index"
+end
 
   resources :time_logs do
     collection do

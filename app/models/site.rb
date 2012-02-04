@@ -1,6 +1,6 @@
 class Site < ActiveRecord::Base
-  has_many :time_logs
-
+  has_many :time_logs, :dependent => :destroy
+  
   def sites_for_select
     site = Array.new
     site += Site.all.collect { |u| [u.url, u.id] }
@@ -33,14 +33,34 @@ class Site < ActiveRecord::Base
      return tl
   end
   
+  def fix_check_times
+    sites = Site.all
+    sites.each do |site|
+      if site.last_checked == nil
+        site.last_checked = Time.now 
+        end 
+      if site.next_check == nil 
+        site.next_check = Time.now 
+      end
+      site.save
+    end
+    
+  end
+  
   def log_stats
     tl = Array.new
+    self.fix_check_times
     sites = Site.all
     sites.each do |site|
        t = Array.new
        count = TimeLog.where("site_id = ?", site.id).count
-       first = TimeLog.where("site_id = ?", site.id).first.checked
-       last = TimeLog.where("site_id = ?", site.id).last.checked
+       if count != 0
+           first = TimeLog.where("site_id = ?", site.id).first.checked
+           last = TimeLog.where("site_id = ?", site.id).last.checked
+       else
+           first = Time.now
+           last = Time.now
+       end
        t = [site.id, count, first, last ]
        tl.push t
      end
@@ -58,6 +78,11 @@ class Site < ActiveRecord::Base
   def unable
     unable_to_connect = Site.where(:status => 'UNABLE_TO_CONNECT').length
   end
+  
+  def inactive
+    unable_to_connect = Site.where(:status => 'INACTIVE').length
+  end
+  
 
 end
 
