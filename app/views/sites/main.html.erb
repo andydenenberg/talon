@@ -41,7 +41,7 @@
 
 
 	$(document).ready(function(){
-	  var plot2 = $.jqplot ('TimeSeries', [[.01,.012,.01,.009,.011,.011,.010]], {
+	  var plot2 = $.jqplot ('TimeSeries', [[.01,.012,.01,.009,.011,.011,.010],[.02,.023,.01,.02,.018,.021,.015]], {
 	      // Give the plot a title.
 //	      title: 'Plot With Options',
 	      // You can specify options for all axes on the plot at once with
@@ -119,7 +119,7 @@
 							<td>ruby_slippers</td>
 							<td>30</td>
 							<td>Active</td>
-							<td><%= (@checker.last_sign_in_at + 6.hours).strftime("%H:%M %p") %></td>
+							<td><%= (@checker.last_sign_in_at + 6.hours).strftime("%H:%M") %></td>
 						  </tr>
 						  <tr>
 							<td>perl_necklace</td>
