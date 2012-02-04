@@ -27,7 +27,10 @@ class SitesController < ApplicationController
     @warning = Site.new.warning
     @inactive = Site.new.inactive
     @sites = Site.all
-#    @point_range = Site.new.log_stats
+    @point_range = Site.new.log_stats
+    
+    @checker = User.first
+    
   end
   
   def index
